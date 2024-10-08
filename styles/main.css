@@ -1,0 +1,169 @@
+/* Change colours here */
+:root {
+    --background: dimgrey; /* Body background colour */
+    --notes: lightgrey; /* Note background colour */
+    --text: black; /* Note text colour */
+    --header: white; /* Header/buttons colour */
+    --trim: darkgray; /* Border colour */
+    --category: aqua; /* Selected category colour */
+}
+
+body {
+    background: var(--background);
+    color: var(--header);
+    font-family: sans-serif;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+h1{
+    border-bottom: solid var(--trim);
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+@media only screen and (orientation: landscape) {
+    main, textarea {
+        width: 50vw;
+        margin-left: 25vw;
+    }
+    #saveButton{
+        margin-left: 25vw;
+    }
+    .buttons, #buttons {
+        right: 25vw;
+    }
+}
+
+@media only screen and (orientation: portrait) {
+    main, textarea {
+        width: 100vw;
+        margin-left: 0vw;
+    }
+    #saveButton, #cancelButton{
+        margin-left: 5vw;
+    }
+    .buttons, #buttons {
+        right: 0vw;
+    }
+}
+
+button {
+    color: var(--header);
+    font-size: 16px;
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
+}
+
+.note {
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: var(--text);
+    background-color: var(--notes);
+    border-radius: 10px;
+    border: solid var(--trim);
+    overflow-wrap: break-word;
+}
+
+.note > button {
+    color: var(--text);
+    width: 100%;
+}
+
+.note > div > a {
+    color: var(--text);
+}
+
+.buttons {
+    position: absolute;
+    background: black;
+    outline: 2px solid black;
+    margin-right: 10px;
+}
+
+#buttons {
+    position: absolute;
+}
+
+#buttons > button {
+    color: white;
+    outline: 2px solid var(--header);
+    background: var(--background);
+    padding-left: 2px;
+    padding-right: 2px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.selected {
+    color: var(--category);
+}
+
+.remove {
+    color: red;
+}
+
+#edit {
+    display: none;
+}
+
+#edit > p {
+    position: fixed;
+    top: 10vh;
+}
+
+textarea {
+    height: 50vh;
+}
+
+#remove {
+    display: none;
+}
+
+#remove > div, #edit > div {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background: black;
+    opacity: 80%;
+}
+
+#remove > p {
+    position: fixed;
+    width: 100vw;
+    top: 40vh;
+    color: black;
+    text-align: center;
+    background: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 1.5;
+}
+
+#remove > p > button, #edit > p > button {
+    padding: 2px;
+    background: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-size: 24px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    opacity: 50%;
+}
+
+footer > a {
+    color: var(--header);
+}
