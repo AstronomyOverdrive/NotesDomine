@@ -1,7 +1,7 @@
 ///////////////////////////////
 //                           //
 //  NotesDomine Client code  //
-//  Version 24.10b           //
+//  Version 24.11a           //
 //                           //
 //  Written By:              //
 //  William Pettersson       //
@@ -18,7 +18,7 @@ const Adress = "ws://127.0.0.1:8001"; // Feel free to replace this with the IP a
 const Socket = new WebSocket(Adress);
 
 Socket.addEventListener("open", (event) => {
-	Socket.send("reqData");
+    Socket.send("reqData");
 });
 
 Socket.addEventListener("message", (event) => {
@@ -35,18 +35,11 @@ let Notes = [];
 let Hidden = false;
 let Sorting = 0;
 let CurrentNote = 0;
+let AutoBR = false;
 
 function syncNotes(sNotes) {
-    let Line = "";
-    Notes = [];
-    for (let i = 0; i < sNotes.length; i++) {
-        if (ServerData[i] === "§" || i == sNotes.length) {
-            Notes.push(Line);
-            Line = "";
-        } else {
-            Line += ServerData[i];
-        }
-    }
+    Notes = sNotes.split("§");
+    Notes.pop(); // Remove last item as it will be empty
     updateHTML(Notes);
 }
 
@@ -114,6 +107,31 @@ function editNote(nNote) {
     document.getElementById("edit").style = "display: block";
 }
 
+document.addEventListener("keyup", (event) => {
+    if (event.key === "Enter" && AutoBR) { // Add a linebreak when pressing the Enter key
+        document.getElementById("message").value = document.getElementById("message").value + "<br>\n";
+    }
+});
+
+function changeLinebreak() {
+    AutoBR = !AutoBR;
+    if (AutoBR) {
+        document.getElementById("linebreak").innerHTML = "&lt;br&gt; on Enter: <span style='color:lime;'>on</span>";
+    } else {
+        document.getElementById("linebreak").innerHTML = "&lt;br&gt; on Enter: <span style='color:red;'>off</span>";
+    }
+}
+
+function previewFormat() {
+    let Contents = document.getElementById("message").value;
+    document.getElementById("preview").innerHTML = "<p style='color:red;font-weight:bold;'>Previewing note, click to enter edit mode</p>" + Contents;
+    document.getElementById("preview").style = "display: block";
+}
+
+function closePreview() {
+    document.getElementById("preview").style = "display: none";
+}
+
 function cancelAction() {
     document.getElementById("edit").style = "display: none";
     document.getElementById("remove").style = "display: none";
@@ -122,7 +140,7 @@ function cancelAction() {
 function saveNote() {
     document.getElementById("edit").style = "display: none";
     let Contents = document.getElementById("message").value;
-    if (Contents){
+    if (Contents) {
         if (CurrentNote === true) { // Create new note
             ServerData = Sorting + Contents + "§" + ServerData;
             sendToServer(ServerData);
@@ -146,7 +164,7 @@ function deleteNote(nNote) {
 
 function hideButtons() {
     let Buttons = document.querySelectorAll(".buttons");
-    if (Hidden){
+    if (Hidden) {
         Buttons.forEach((oButton) => {
             oButton.style = "display: block";
         });

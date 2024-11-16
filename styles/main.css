@@ -16,14 +16,14 @@ body {
     font-family: sans-serif;
 }
 
-h1{
+h1 {
     border-bottom: solid var(--trim);
     padding-bottom: 20px;
     text-align: center;
 }
 
 @media only screen and (orientation: landscape) {
-    main, textarea {
+    main, textarea, #preview {
         width: 50vw;
         margin-left: 25vw;
     }
@@ -36,15 +36,16 @@ h1{
 }
 
 @media only screen and (orientation: portrait) {
-    main, textarea {
+    main, textarea, #preview {
         width: 100vw;
         margin-left: 0vw;
     }
-    #saveButton, #cancelButton{
-        margin-left: 5vw;
-    }
     .buttons, #buttons {
         right: 0vw;
+    }
+    #edit > p > button {
+        display: block;
+        margin: 10px;
     }
 }
 
@@ -154,6 +155,26 @@ textarea {
     border: 2px solid black;
     border-radius: 10px;
     font-size: 24px;
+}
+
+#preview {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    background: white;
+    display: none;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    color: var(--text);
+    background-color: var(--notes);
+    overflow-wrap: break-word;
+}
+
+#preview a {
+    color: var(--text);
 }
 
 footer {
