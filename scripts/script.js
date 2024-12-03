@@ -1,7 +1,7 @@
 ///////////////////////////////
 //                           //
 //  NotesDomine Client code  //
-//  Version 24.11a           //
+//  Version 24.12a           //
 //                           //
 //  Written By:              //
 //  William Pettersson       //
@@ -23,7 +23,11 @@ Socket.addEventListener("open", (event) => {
 
 Socket.addEventListener("message", (event) => {
     ServerData = event.data;
-    syncNotes(ServerData);
+    if (ServerData === "Saved!") {
+        serverStatus(true);
+    } else {
+        syncNotes(ServerData);
+    }
 });
 
 /* * * * * * * * * * *
@@ -36,6 +40,7 @@ let Hidden = false;
 let Sorting = 0;
 let CurrentNote = 0;
 let AutoBR = false;
+let NotesSynced = false;
 
 function syncNotes(sNotes) {
     Notes = sNotes.split("§");
@@ -53,8 +58,24 @@ function reformatNotes() {
 }
 
 function sendToServer(sData) {
+    NotesSynced = false;
+    document.getElementById("header").style.borderColor = "blue"; // Waiting on response from server
     Socket.send(sData);
     syncNotes(sData);
+    setTimeout(() => {
+        if (!NotesSynced) {
+            serverStatus(false);
+        }
+    }, 1000);
+}
+
+function serverStatus(bSaved) {
+    if (bSaved) {
+        document.getElementById("header").style.borderColor = "var(--trim)"; // Notes confirmed synced
+        NotesSynced = true;
+    } else {
+        document.getElementById("header").style.borderColor = "red"; // No response from server
+    }
 }
 
 function updateHTML(aNotes) {

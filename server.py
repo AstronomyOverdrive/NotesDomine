@@ -1,7 +1,7 @@
 ############################
 #                          #
 #  Server for NotesDomine  #
-#  Version 24.09c          #
+#  Version 24.12a          #
 #                          #
 #  Written By:             #
 #  William Pettersson      #
@@ -36,6 +36,7 @@ def SocketServer(WebSocket):
                 Notes = open("notes", "w")
                 Notes.write(ClientData)
                 Notes.close()
+                WebSocket.send("Saved!")
     except:
         if SocketLogging:
             print("Closing dead socket.")
