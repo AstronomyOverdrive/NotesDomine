@@ -1,7 +1,7 @@
 ///////////////////////////////
 //                           //
 //  NotesDomine Client code  //
-//  Version 24.12a           //
+//  Version 25.01a           //
 //                           //
 //  Written By:              //
 //  William Pettersson       //
@@ -13,7 +13,7 @@
 /* * * * * * * * * * *
  *  Websocket Stuff  *
  * * * * * * * * * * */
- 
+
 const Adress = "ws://127.0.0.1:8001"; // Feel free to replace this with the IP and websocket port of your actual server
 const Socket = new WebSocket(Adress);
 
@@ -22,10 +22,11 @@ Socket.addEventListener("open", (event) => {
 });
 
 Socket.addEventListener("message", (event) => {
-    ServerData = event.data;
-    if (ServerData === "Saved!") {
+    const ServerMessage = event.data;
+    if (ServerMessage === "Saved!") {
         serverStatus(true);
     } else {
+        ServerData = ServerMessage;
         syncNotes(ServerData);
     }
 });
