@@ -1,7 +1,7 @@
 ///////////////////////////////
 //                           //
 //  NotesDomine Client code  //
-//  Version 25.01a           //
+//  Version 25.02a           //
 //                           //
 //  Written By:              //
 //  William Pettersson       //
@@ -122,30 +122,88 @@ function sortAdd(nNoteCategory) {
 function editNote(nNote) {
     CurrentNote = nNote;
     if (CurrentNote !== true) {
-        document.getElementById("message").value = document.getElementById("index"+nNote+"").innerHTML;
+        document.getElementById("message").value = toMarkdown(document.getElementById("index"+nNote+"").innerHTML);
     } else {
         document.getElementById("message").value = "";
     }
     document.getElementById("edit").style = "display: block";
 }
 
-document.addEventListener("keyup", (event) => {
-    if (event.key === "Enter" && AutoBR) { // Add a linebreak when pressing the Enter key
-        document.getElementById("message").value = document.getElementById("message").value + "<br>\n";
+function toHTML(sNote) {
+    let formatedNote = sNote.replaceAll("&", "&amp;")
+    .replaceAll("§", "&sect;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll("\n", "<br>")
+    .replaceAll(" ", "&nbsp;")
+    .replaceAll("\\\*", "<span>&ast;</span>")
+    .replaceAll("\\_", "<span>_</span>")
+    .replaceAll("\\~", "<span>~</span>");
+    const boldItalics = [...formatedNote.matchAll(/\*\*\*/gs)];
+    for (let i = 0; i < boldItalics.length; i++) {
+        if (i % 2 === 0) {
+            formatedNote = formatedNote.replace("***", "<i><b>");
+        } else {
+            formatedNote = formatedNote.replace("***", "</b></i>");
+        }
     }
-});
+    const bold = [...formatedNote.matchAll(/\*\*/gs)];
+    for (let i = 0; i < bold.length; i++) {
+        if (i % 2 === 0) {
+            formatedNote = formatedNote.replace("**", "<b>");
+        } else {
+            formatedNote = formatedNote.replace("**", "</b>");
+        }
+    }
+    const italics = [...formatedNote.matchAll(/\*/gs)];
+    for (let i = 0; i < italics.length; i++) {
+        if (i % 2 === 0) {
+            formatedNote = formatedNote.replace("*", "<i>");
+        } else {
+            formatedNote = formatedNote.replace("*", "</i>");
+        }
+    }
+    const underscore = [...formatedNote.matchAll(/__/gs)];
+    for (let i = 0; i < underscore.length; i++) {
+        if (i % 2 === 0) {
+            formatedNote = formatedNote.replace("__", "<u>");
+        } else {
+            formatedNote = formatedNote.replace("__", "</u>");
+        }
+    }
+    const strikethrough = [...formatedNote.matchAll(/~~/gs)];
+    for (let i = 0; i < strikethrough.length; i++) {
+        if (i % 2 === 0) {
+            formatedNote = formatedNote.replace("~~", "<strike>");
+        } else {
+            formatedNote = formatedNote.replace("~~", "</strike>");
+        }
+    }
+    return formatedNote;
+}
 
-function changeLinebreak() {
-    AutoBR = !AutoBR;
-    if (AutoBR) {
-        document.getElementById("linebreak").innerHTML = "&lt;br&gt; on Enter: <span style='color:lime;'>on</span>";
-    } else {
-        document.getElementById("linebreak").innerHTML = "&lt;br&gt; on Enter: <span style='color:red;'>off</span>";
-    }
+function toMarkdown(sNote) {
+    let formatedNote = sNote.replaceAll("<br>", "\n")
+    .replaceAll("<span>\*</span>", "\\\*")
+    .replaceAll("<span>_</span>", "\\_")
+    .replaceAll("<span>~</span>", "\\~")
+    .replaceAll("</b>", "**")
+    .replaceAll("<b>", "**")
+    .replaceAll("</i>", "*")
+    .replaceAll("<i>", "*")
+    .replaceAll("</strike>", "~~")
+    .replaceAll("<strike>", "~~")
+    .replaceAll("</u>", "__")
+    .replaceAll("<u>", "__")
+    .replaceAll("&amp;", "&")
+    .replaceAll("&nbsp;", " ")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
+    return formatedNote;
 }
 
 function previewFormat() {
-    let Contents = document.getElementById("message").value;
+    let Contents = toHTML(document.getElementById("message").value);
     document.getElementById("preview").innerHTML = "<p style='color:red;font-weight:bold;'>Previewing note, click to enter edit mode</p>" + Contents;
     document.getElementById("preview").style = "display: block";
 }
@@ -161,7 +219,7 @@ function cancelAction() {
 
 function saveNote() {
     document.getElementById("edit").style = "display: none";
-    let Contents = document.getElementById("message").value;
+    let Contents = toHTML(document.getElementById("message").value);
     if (Contents) {
         if (CurrentNote === true) { // Create new note
             ServerData = Sorting + Contents + "§" + ServerData;

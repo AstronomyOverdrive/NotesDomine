@@ -4,7 +4,7 @@ NotesDomine is a simple note taking web app meant to be self-hosted. It comes wi
 ## Features
 * Connect from any device on your local network
 * Sort notes by assigning them to different categories
-* Format your notes using HTML tags
+* Format your notes
 ## Setup
 1. If you want to use the included python server you will need to install websockets. [GitHub](https://github.com/python-websockets/websockets) | [PyPI](https://pypi.org/project/websockets)
 2. Change the IP in server.py & script.js if you want to connect from other devices. (default IP is 127.0.0.1)
