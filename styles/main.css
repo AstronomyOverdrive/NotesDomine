@@ -6,6 +6,8 @@
     --header: white; /* Header/buttons colour */
     --trim: darkgray; /* Border colour */
     --category: aqua; /* Selected category colour */
+    --notefs: 16px;
+    --editfs: 12px;
 }
 
 body {
@@ -171,6 +173,7 @@ textarea {
     color: var(--text);
     background-color: var(--notes);
     overflow-wrap: break-word;
+    overflow-y: scroll;
 }
 
 #preview a {
@@ -187,4 +190,11 @@ footer {
 
 footer > a {
     color: var(--header);
+}
+
+div {
+    font-size: var(--notefs);
+}
+textarea {
+    font-size: var(--editfs);
 }

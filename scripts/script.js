@@ -88,7 +88,7 @@ function updateHTML(aNotes) {
             Sort[aNotes[i][0]-1] = "selected";
         }
         if (Sorting === 0 || Sort[Sorting-1] === "selected") {
-            Divs += '<div class="note"><span class="buttons"><button onclick="sortAdd(1'+i+')" class="'+Sort[0]+'" id="n'+Index+'c1">&spades;</button> <button onclick="sortAdd(2'+i+')" class="'+Sort[1]+'" id="n'+Index+'c2">&clubs;</button> <button onclick="sortAdd(3'+i+')" class="'+Sort[2]+'" id="n'+Index+'c3">&hearts;</button> <button onclick="sortAdd(4'+i+')" class="'+Sort[3]+'" id="n'+Index+'c4">&diams;</button> <button class="remove" onclick="deleteNote('+i+')">X</button></span><div id="index'+i+'" onclick="editNote('+i+')">'+Notes[i].substring(1)+'</div></div>';
+            Divs += `<div class="note"><span class="buttons"><button onclick="sortAdd('1-${i}')" class="${Sort[0]}" id="n${Index}c1">&spades;</button> <button onclick="sortAdd('2-${i}')" class="${Sort[1]}" id="n${Index}c2">&clubs;</button> <button onclick="sortAdd('3-${i}')" class="${Sort[2]}" id="n${Index}c3">&hearts;</button> <button onclick="sortAdd('4-${i}')" class="${Sort[3]}" id="n${Index}c4">&diams;</button> <button class="remove" onclick="deleteNote(${i})">X</button></span><div id="index${i}" onclick="editNote(${i})">${Notes[i].substring(1)}</div></div>`;
         }
     }
     document.getElementById("notes").innerHTML = Divs;
@@ -110,8 +110,8 @@ function sortBy(nCategory) {
 }
 
 function sortAdd(nNoteCategory) {
-    let NoteIndex = nNoteCategory%10;
-    let Category = Math.floor(nNoteCategory/10);
+    let NoteIndex = Number(nNoteCategory.split("-")[1]);
+    let Category = Number(nNoteCategory.split("-")[0]);
     if (Category == Notes[NoteIndex][0]) {
         Category = 0;
     }
