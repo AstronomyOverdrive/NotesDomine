@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>NotesDomine 25.11a</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon"
+		href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAN1JREFUSInNlr0NwjAQhd8hZoCaFdiCKZiBCRImoEvvmgEomYAZqMMSR4PN2clZ/gvikyw5tvJe7HeJQwjgseNwLAZtzxSdrxFPMXETpeIpJs6Ax46L+NxrtR7Xi+uvap5aY38/ub5nYG47GGMAAETkNcvcWIy1vDgensCmBwAw+5FYwXA8yyBGrrBlkQwk6grCPS5dgWqgZZBr+tsMZJm2Qi1TSWmJTgzmRKVwSfDJIacKhiz+HvzPiybJ2Sq1TJlZbU2+pjGKV9CM4dudZvDqq/VJnPVN/ioA/dB/A7Hwp2vmgBmbAAAAAElFTkSuQmCC">
+	<link rel="stylesheet" href="web/main.css">
+</head>
+
+<body>
+	<header>
+		<h1 id="header">Good evening!</h1>
+	</header>
+	<main>
+		Sort:
+		<button onclick="sortBy(1)" class="!selected" id="sort1">&spades;</button>
+		<button onclick="sortBy(2)" class="!selected" id="sort2">&clubs;</button>
+		<button onclick="sortBy(3)" class="!selected" id="sort3">&hearts;</button>
+		<button onclick="sortBy(4)" class="!selected" id="sort4">&diams;</button>
+		<span id="buttons">
+			<button onclick="editNote(true)">Create Note</button>
+			<button onclick="hideButtons()">Hide Buttons</button>
+		</span>
+		<div id="notes"></div>
+	</main>
+	<div id="remove">
+		<div></div>
+		<p>
+			Are you sure you want to delete this note?<br>
+			<button onclick="deleteNote(true)" style="color: green;">Delete</button>
+			<button onclick="cancelAction()" style="color: red;">Cancel</button>
+		</p>
+	</div>
+	<div id="edit">
+		<div></div>
+		<p>
+			<textarea name="message" id="message" placeholder="Write your note here"></textarea>
+			<br>
+			<button onclick="saveNote()" style="color: green;" id="saveButton">Save</button>
+			<button onclick="cancelAction()" style="color: red;" id="cancelButton">Cancel</button>
+			<button onclick="previewFormat()" style="color: blue;">Preview formatting</button>
+		</p>
+	</div>
+	<div onclick="closePreview()" id="preview"></div>
+	<footer>
+		<a target="_blank" href="https://github.com/AstronomyOverdrive/NotesDomine">NotesDomine V2 25.11a</a>
+	</footer>
+
+	<script src="web/script.js"></script>
+</body>
+
+</html>

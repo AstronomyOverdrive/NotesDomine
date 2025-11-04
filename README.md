@@ -1,14 +1,23 @@
 # NotesDomine
-NotesDomine is a simple note taking web app meant to be self-hosted. It comes with a basic python server running http.server and websockets.<br>
-[Try it online.](https://williampettersson.eu/previews/notesdomine.html) (Based on version 24.09c)
+NotesDomine is a simple note taking web app.<br>
+[Try it online.](https://williampettersson.eu/previews/notesdomine.html) (Based on version 24.09c / outdated)<br>
+<br>
+**UPDATE 2025-11-04:**<br>
+*NotesDomine V2* (25.11a) is now released with a new Express-based server and proper storage.<br>
+Sadly this breaks compatibility with the previous system so old notes will have to be manually re-added when upgrading.
 ## Features
 * Connect from any device on your local network
 * Sort notes by assigning them to different categories
-* Format your notes
+* Format your notes using a markdown-like syntax
 ## Setup
-1. If you want to use the included python server you will need to install websockets. [GitHub](https://github.com/python-websockets/websockets) | [PyPI](https://pypi.org/project/websockets)
-2. Change the IP in server.py & script.js if you want to connect from other devices. (default IP is 127.0.0.1)
-3. Change the port(s) in server.py & script.js if you already have other services running on port 8000 and/or 8001.
-4. Change the colours to your liking by editing the variables in main.css.
+1. Change `serverUrl` in `webpage/script.js` to your servers IP and whatever port is free.
+2. Rename `.env.example` to `.env` and change `PORT` to whatever you set in `webpage/script.js`.
+3. Change the colours to your liking by editing the variables in `webpage/main.css`.
+4. Install dependencies with `npm install`. (Express, MySQL2, CORS and dotenv)
 ## Usage
-Simply run server.py and connect to it from your web browser of choice.
+Run the server with `node server`.
+## Use database instead of notes.tsv file
+1. Install MariaDB/MySQL and setup a user.
+2. Change the values in `.env` to match your database.
+3. Run `node setupdb`.
+4. In `server.js`, change `usingTsv` to `false`.
